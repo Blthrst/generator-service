@@ -26,4 +26,5 @@ export class TaskStatusDTO {
   url?: string;
 }
 
-export class TaskByIdDTO {}
+//todo
+export type PageData<T> = Array<T>

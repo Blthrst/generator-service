@@ -6,7 +6,7 @@ import { TasksService } from './tasks.service';
 import { TaskEntity } from 'src/entities/task.entity';
 import { TasksQueueService } from './tasks-queue.service';
 import { TasksController } from './tasks.contoller';
-import { TasksConsumer } from './tasks-consumer';
+import { TasksConsumer } from './tasks-queue.consumer';
 
 @Module({
   imports: [

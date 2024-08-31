@@ -12,6 +12,9 @@ export class TaskEntity {
   @PrimaryKey({ type: 'uuid' })
   id: string = randomUUID();
 
+  @Property({type: "varchar", fieldName: 'document_url'})
+  documentUrl: string
+
   @Enum(() => TaskStatus)
   status: TaskStatus;
 }

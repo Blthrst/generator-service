@@ -23,6 +23,7 @@ export class TasksQueueService {
     };
 
     await this.tasksQueue.add('generate-report', extendedTask);
+    await this.tasksQueue.getJobCounts().then(console.log);
 
     return { document_id: newTask.id };
   }

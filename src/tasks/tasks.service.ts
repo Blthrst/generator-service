@@ -37,6 +37,6 @@ export class TasksService {
   }
 
   async updateStatus(id: string, status: TaskStatus): Promise<void> {
-    await this.tasksRepository.upsert({id, status})
+    await this.tasksRepository.upsert({ id, status });
   }
 }
