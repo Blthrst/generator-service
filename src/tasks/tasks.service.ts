@@ -10,7 +10,7 @@ export class TasksService {
   constructor(
     @InjectRepository(TaskEntity)
     private tasksRepository: EntityRepository<TaskEntity>,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
   async create(status: TaskStatus): Promise<TaskEntity> {
@@ -25,9 +25,7 @@ export class TasksService {
   async findById(id: string): Promise<TaskEntity> {
     const task = await this.tasksRepository.findOne({ id });
 
-    if (!task) {
-      throw new NotFoundException();
-    }
+    if (!task) throw new NotFoundException();
 
     return task;
   }
@@ -44,8 +42,8 @@ export class TasksService {
 
     return {
       status: task.status,
-      url: `${this.configService.get("BASE_URL")}/downloads/${task.id}`
-    }
+      url: `${this.configService.get('BASE_URL')}/downloads/${task.id}`,
+    };
   }
 
   async updateStatusAndUrl(

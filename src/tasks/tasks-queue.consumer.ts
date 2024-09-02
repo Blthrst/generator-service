@@ -3,7 +3,7 @@ import { Inject } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { Workbook } from 'exceljs';
 import { existsSync, mkdir } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { ConfigService } from '@nestjs/config';
 
 import { ExtendedTaskCreationDto } from 'src/dtos';
@@ -71,7 +71,7 @@ export class TasksConsumer extends WorkerHost {
           );
         }
       }
-      const documentUrl = join(p, `${job.data.id}.xlsx`)
+      const documentUrl = resolve(p, `${job.data.id}.xlsx`)
       await wb.xlsx.writeFile(documentUrl);
 
       await this.tasksService.updateStatusAndUrl(job.data.id, TaskStatus.DONE, documentUrl)
@@ -79,6 +79,6 @@ export class TasksConsumer extends WorkerHost {
       throw new Error(err.message);
     }
 
-    return;
+    return
   }
 }
