@@ -1,11 +1,11 @@
-import { PageData } from 'src/dtos';
+import { PageData, User } from 'src/types';
 
 export async function getPage(
   url: string,
   p: number,
-): Promise<PageData<any[]>> {
-  const data = await fetch(`${url}?p=${p}`);
+): Promise<PageData<User>> {
+  const data = await fetch(`${url}?page=${p}`);
 
   const result = await data.json();
-  return result as any[];
+  return result as User[];
 }

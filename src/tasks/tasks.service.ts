@@ -1,6 +1,7 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { TaskStatusDTO } from 'src/dtos';
 import { TaskEntity, TaskStatus } from 'src/entities/task.entity';
 
@@ -9,6 +10,7 @@ export class TasksService {
   constructor(
     @InjectRepository(TaskEntity)
     private tasksRepository: EntityRepository<TaskEntity>,
+    private configService: ConfigService
   ) {}
 
   async create(status: TaskStatus): Promise<TaskEntity> {
@@ -33,10 +35,24 @@ export class TasksService {
   async getStatus(id: string): Promise<TaskStatusDTO> {
     const task = await this.findById(id);
 
-    return { status: task.status };
+    if (
+      task.status === TaskStatus.PENDING ||
+      task.status === TaskStatus.FAILURE
+    ) {
+      return { status: task.status };
+    }
+
+    return {
+      status: task.status,
+      url: `${this.configService.get("BASE_URL")}/downloads/${task.id}`
+    }
   }
 
-  async updateStatus(id: string, status: TaskStatus): Promise<void> {
-    await this.tasksRepository.upsert({ id, status });
+  async updateStatusAndUrl(
+    id: string,
+    status: TaskStatus,
+    documentUrl: string,
+  ): Promise<void> {
+    await this.tasksRepository.upsert({ id, status, documentUrl });
   }
 }

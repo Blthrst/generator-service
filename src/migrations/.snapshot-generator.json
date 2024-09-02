@@ -15,6 +15,16 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "document_url": {
+          "name": "document_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "status": {
           "name": "status",
           "type": "text",

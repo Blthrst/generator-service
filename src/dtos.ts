@@ -25,6 +25,3 @@ export class TaskStatusDTO {
   @IsString()
   url?: string;
 }
-
-//todo
-export type PageData<T> = Array<T>

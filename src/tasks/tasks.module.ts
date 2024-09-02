@@ -17,5 +17,6 @@ import { TasksConsumer } from './tasks-queue.consumer';
   ],
   controllers: [TasksController],
   providers: [TasksService, TasksQueueService, TasksConsumer],
+  exports: [TasksService]
 })
 export class TasksModule {}

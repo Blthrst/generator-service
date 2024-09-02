@@ -4,6 +4,7 @@ import { BullModule } from '@nestjs/bullmq';
 
 import { TasksModule } from './tasks/tasks.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { DownloadsModule } from './downloads/downloads.module';
 import config from './mikro-orm.config';
 
 @Module({
@@ -19,6 +20,7 @@ import config from './mikro-orm.config';
       isGlobal: true,
     }),
     TasksModule,
+    DownloadsModule,
   ],
   controllers: [],
   providers: [],
