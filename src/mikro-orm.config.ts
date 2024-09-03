@@ -4,6 +4,9 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { join } from 'path';
 import "dotenv/config"
 
+/**
+ * Mikro-Orm configuration object
+ */
 const config: Options = {
   allowGlobalContext: true,
   driver: PostgreSqlDriver,

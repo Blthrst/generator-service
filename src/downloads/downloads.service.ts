@@ -5,6 +5,11 @@ import { TasksService } from 'src/tasks/tasks.service';
 export class DownloadsService {
     constructor(@Inject() private tasksService: TasksService) {}
 
+    /**
+     * Gets document URL by ID
+     * @param id Document ID
+     * @returns Document URL
+     */
     async getDocumentUrl(id: string): Promise<string> {
         const {documentUrl} = await this.tasksService.findById(id)
 

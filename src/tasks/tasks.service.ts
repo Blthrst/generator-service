@@ -13,6 +13,11 @@ export class TasksService {
     private configService: ConfigService,
   ) {}
 
+  /**
+   * Creates new task
+   * @param status Init task status
+   * @returns `TaskEntity` 
+   */
   async create(status: TaskStatus): Promise<TaskEntity> {
     const task = this.tasksRepository.create({ status });
 
@@ -22,6 +27,11 @@ export class TasksService {
     return found;
   }
 
+  /**
+   * Finds task with specified UUID. If not found throws `NotFoundException`
+   * @param id Task's UUID
+   * @returns `TaskEntity`
+   */
   async findById(id: string): Promise<TaskEntity> {
     const task = await this.tasksRepository.findOne({ id });
 
@@ -30,6 +40,11 @@ export class TasksService {
     return task;
   }
 
+  /**
+   * Gets task status with specified UUID
+   * @param id Task's UUID
+   * @returns Task's status
+   */
   async getStatus(id: string): Promise<TaskStatusDTO> {
     const task = await this.findById(id);
 
@@ -46,6 +61,12 @@ export class TasksService {
     };
   }
 
+  /**
+   * Updates task's status and writes generated report's path (`documentUrl`)
+   * @param id Task's UUID
+   * @param status Task's status
+   * @param documentUrl Path to generated report
+   */
   async updateStatusAndUrl(
     id: string,
     status: TaskStatus,

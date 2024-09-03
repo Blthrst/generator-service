@@ -15,6 +15,11 @@ export class TasksQueueService {
     @Inject() private tasksService: TasksService,
   ) {}
 
+  /**
+   * Method that adds task to `tasks` queue
+   * @param task Task object
+   * @returns Task's status
+   */
   async addTaskToQueue(task: TaskCreationDTO): Promise<TaskStatusDTO> {
     const newTask = await this.tasksService.create(TaskStatus.PENDING);
     const extendedTask = {

@@ -20,6 +20,12 @@ export class TasksConsumer extends WorkerHost {
     super();
   }
 
+  /**
+   * Method that generates report
+   * @param job Job from `tasks` queue
+   * @param _ 
+   * @returns 
+   */
   async process(job: Job<ExtendedTaskCreationDto>, _: any): Promise<any> {
     const p = join(process.cwd(), 'reports');
     if (!existsSync(p)) {
@@ -31,15 +37,26 @@ export class TasksConsumer extends WorkerHost {
     }
 
     try {
+      /**
+       * Excel workbook
+       */
       const wb = new Workbook();
+
+      /**
+       * Resource URL
+       */
       const url = job.data.serviceName + job.data.endpoint;
 
+      // Sends requests until `i` less than `GEN_MAX_REQUESTS` env variable
       for (let i = 0; i < this.configService.get<number>("GEN_MAX_REQUESTS"); i++) {
         const data = await getPage(url, i);
         if (data.length === 0) {
           break;
         }
 
+        /**
+         * Excel worksheet
+         */
         const ws = wb.addWorksheet(`${i + 1}`, {
           pageSetup: {
             verticalCentered: true,
@@ -62,15 +79,22 @@ export class TasksConsumer extends WorkerHost {
           (c) => (c.alignment = { vertical: 'middle', horizontal: 'center' }),
         );
 
+        /**
+         * Allocated rows for generating report
+         */
         const rows = ws.getRows(2, data.length);
 
         for (let i = 0; i < data.length; i++) {
           rows[i].values = data[i];
           rows[i].eachCell(
+            //styling 
             (c) => (c.alignment = { vertical: 'middle', horizontal: 'center' }),
           );
         }
       }
+      /**
+       * Path to generated report
+       */
       const documentUrl = resolve(p, `${job.data.id}.xlsx`)
       await wb.xlsx.writeFile(documentUrl);
 
